@@ -1,4 +1,3 @@
 FROM scratch
-ADD hello /
-CMD ["/hello"]
-
+ADD self-test /
+CMD ["/self-test"]

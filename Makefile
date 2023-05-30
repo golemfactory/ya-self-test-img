@@ -1,8 +1,7 @@
-all: hello
+all: build
 
 
-hello: hello.zig
-	zig build-exe hello.zig -O ReleaseSmall --strip --single-threaded
+build: self-test.rs
+	rustc self-test.rs
 
-.PHONY: all
-
+.PHONY: build
