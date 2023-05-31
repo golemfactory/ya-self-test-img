@@ -1,7 +1,12 @@
 all: build
 
+build: src
+	docker build -t self-test .
+	gvmkit-build self-test:latest -o self-test.gvmi
 
-build: self-test.rs
-	rustc self-test.rs
+.PHONY: all
 
-.PHONY: build
+.PHONY: clean
+clean:
+	cargo clean
+	rm -f self-test.gvmi
