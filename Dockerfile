@@ -5,6 +5,6 @@ RUN rustup target add x86_64-unknown-linux-musl
 RUN cargo install --path . --target x86_64-unknown-linux-musl
 
 FROM scratch
-WORKDIR /data
+WORKDIR /
 COPY --from=builder /usr/local/cargo/bin/ya-self-test /ya-self-test
 CMD [ "/ya-self-test" ]

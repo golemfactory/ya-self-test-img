@@ -1,8 +1,7 @@
-fn main() -> std::io::Result<()> {
+fn main() -> anyhow::Result<()> {
+    let sys_info = ya_self_test::system_info()?;
 
-    let sys_info = "{ \"foo\": \"bar\" }";
+    print!("{}", sys_info.to_string());
 
-    println!("{sys_info}");
-    
     Ok(())
 }
