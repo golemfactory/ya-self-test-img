@@ -12,6 +12,7 @@ env:
   gvmkit-build_dir: gvmkit-build
   dist_dir: dist
   dist_img: self-test.gvmi
+  self-test-img_tag: $GITHUB_REPOSITORY:$GITHUB_REF_NAME
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +28,7 @@ jobs:
         with:
           context: .
           push: false
-          tags: ${{ vars.GITHUB_ACTION_REPOSITORY }}:${{ vars.GITHUB_REF_NAME }}
+          tags: ${{ env.self-test-img_tag }}
         
       - name: Download gvmkit-build
         uses: robinraju/release-downloader@v1.8
@@ -43,7 +44,7 @@ jobs:
       - name: Build GVMkit image
         run: |
           mkdir ${{ env.dist_dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ vars.GITHUB_ACTION_REPOSITORY }}:${{ vars.GITHUB_REF_NAME }} -o ${{ env.dist-dir }}/${{ env.dist_img }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.gvmkit-build_tag }} -o ${{ env.dist-dir }}/${{ env.dist_img }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
