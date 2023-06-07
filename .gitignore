@@ -5,3 +5,4 @@ self-test.gvmi
 # Added by cargo
 
 /target
+self-test.gvmi.descr.bin
