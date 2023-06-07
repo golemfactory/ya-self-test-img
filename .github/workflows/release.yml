@@ -10,6 +10,7 @@ env:
   rust_stable: 1.70.0
   gvmkit-build_tag: v0.3.1
   gvmkit-build_dir: gvmkit-build
+  gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
   dist_dir: dist
   dist_img: self-test.gvmi
   self-test-img_tag: ${{ vars.GITHUB_REPOSITORY }}
@@ -35,7 +36,7 @@ jobs:
         with:
           repository: golemfactory/gvmkit-build-rs
           tag: ${{ env.gvmkit-build_tag }}
-          fileName: gvmkit-build-aarch64-unknown-linux-musl.tar.gz
+          fileName: ${{ env.gvmkit-build_archive }}
           extract: true
           out-file-path: ${{ env.gvmkit-build_dir }}
           tarBall: false
