@@ -12,7 +12,7 @@ env:
   gvmkit-build_dir: gvmkit-build
   dist_dir: dist
   dist_img: self-test.gvmi
-  self-test-img_tag: $GITHUB_REPOSITORY:$GITHUB_REF_NAME
+  self-test-img_tag: ${{ vars.GITHUB_REPOSITORY }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
       - name: Build GVMkit image
         run: |
           mkdir ${{ env.dist_dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.gvmkit-build_tag }} -o ${{ env.dist-dir }}/${{ env.dist_img }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.gvmkit-build_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist_img }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
