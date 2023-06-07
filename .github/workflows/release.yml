@@ -35,7 +35,7 @@ jobs:
         uses: robinraju/release-downloader@v1.8
         with:
           repository: golemfactory/gvmkit-build-rs
-          tag: ${{ env.gvmkit-build_tag }}
+          tag: ${{ envself-test-img_tag }}
           fileName: ${{ env.gvmkit-build_archive }}
           extract: true
           out-file-path: ${{ env.gvmkit-build_dir }}
@@ -45,7 +45,7 @@ jobs:
       - name: Build GVMkit image
         run: |
           mkdir ${{ env.dist_dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.gvmkit-build_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist_img }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist_img }} --push false
 
       - name: Release
         uses: softprops/action-gh-release@v1
