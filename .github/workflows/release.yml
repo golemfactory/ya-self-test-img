@@ -13,7 +13,7 @@ env:
   gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
   dist_dir: dist
   dist_img: self-test.gvmi
-  self-test-img_tag: ${{ vars.GITHUB_REPOSITORY }}
+  self-test-img_tag: self-test
 jobs:
   build:
     runs-on: ubuntu-latest
