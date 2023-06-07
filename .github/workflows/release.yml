@@ -35,7 +35,7 @@ jobs:
         uses: robinraju/release-downloader@v1.8
         with:
           repository: golemfactory/gvmkit-build-rs
-          tag: ${{ envself-test-img_tag }}
+          tag: ${{ env.self-test-img_tag }}
           fileName: ${{ env.gvmkit-build_archive }}
           extract: true
           out-file-path: ${{ env.gvmkit-build_dir }}
