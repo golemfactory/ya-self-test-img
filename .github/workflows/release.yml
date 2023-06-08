@@ -46,7 +46,7 @@ jobs:
       - name: Build GVMkit image
         run: |
           mkdir ${{ env.dist-dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }} --push false
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
