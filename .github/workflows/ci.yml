@@ -1,0 +1,81 @@
+name: CI
+
+on: push
+
+env:
+  rust_stable: 1.70.0
+  # Use v0.3.1 when https://github.com/golemfactory/gvmkit-build-rs/pull/4 released
+  gvmkit-build_tag: v0.2.2
+  gvmkit-build_dir: gvmkit-build
+  gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
+  dist-dir: dist
+  dist-img: self-test.gvmi
+  self-test-img_tag: self-test
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust ${{ env.rust_stable }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.rust_stable }}
+          components: rustfmt, clippy
+
+      - name: Check lockfile
+        uses: actions-rs/cargo@v1
+        with:
+          command: tree
+          args: --locked
+
+      - name: Check formatting
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: Check clippy lints
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --all-targets --all-features --workspace -- -D warnings
+      
+      - name: Unit tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --workspace --exclude=["./agent/provider/src/market"] --locked
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          tags: ${{ env.self-test-img_tag }}
+        
+      - name: Download gvmkit-build
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: golemfactory/gvmkit-build-rs
+          tag: ${{ env.gvmkit-build_tag }}
+          fileName: ${{ env.gvmkit-build_archive }}
+          extract: true
+          out-file-path: ${{ env.gvmkit-build_dir }}
+          tarBall: false
+          zipBall: false
+
+      - name: Build GVMkit image
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          mkdir ${{ env.dist-dir }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          files: ${{ env.dist-dir }}/${{ env.dist_img }}

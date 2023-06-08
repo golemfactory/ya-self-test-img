@@ -1,7 +1,9 @@
-FROM rust:1.69.0 as builder
+FROM rust:1.70.0 as rust_builder
+RUN rustup target add x86_64-unknown-linux-musl
+
+FROM rust_builder as builder
 WORKDIR /data
 COPY . .
-RUN rustup target add x86_64-unknown-linux-musl
 RUN cargo install --path . --target x86_64-unknown-linux-musl
 
 FROM scratch
