@@ -8,7 +8,8 @@ on:
 
 env:
   rust_stable: 1.70.0
-  gvmkit-build_tag: v0.3.1
+  # Use v0.3.1 when https://github.com/golemfactory/gvmkit-build-rs/pull/4 released
+  gvmkit-build_tag: v0.2.2
   gvmkit-build_dir: gvmkit-build
   gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
   dist-dir: dist
