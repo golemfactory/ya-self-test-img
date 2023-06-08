@@ -11,8 +11,8 @@ env:
   gvmkit-build_tag: v0.3.1
   gvmkit-build_dir: gvmkit-build
   gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
-  dist_dir: dist
-  dist_img: self-test.gvmi
+  dist-dir: dist
+  dist-img: self-test.gvmi
   self-test-img_tag: self-test
 jobs:
   build:
@@ -44,8 +44,8 @@ jobs:
 
       - name: Build GVMkit image
         run: |
-          mkdir ${{ env.dist_dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist_img }} --push false
+          mkdir ${{ env.dist-dir }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }} --push false --login false
 
       - name: Release
         uses: softprops/action-gh-release@v1
