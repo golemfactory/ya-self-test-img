@@ -102,7 +102,7 @@ fn nvidia_smi() -> anyhow::Result<SmiOut> {
 
     Ok(SmiOut {
         name: product_name,
-        cuda_ver: cuda_ver.to_string(),
+        cuda_ver,
         clock_graphics_mhz: clock_unit_to_hz(&max_graphics_clock)? / 1000000,
         clock_sm_mhz: clock_unit_to_hz(&max_sm_clock)? / 1000000,
         clock_mem_mhz: clock_unit_to_hz(&max_mem_clock)? / 1000000,
