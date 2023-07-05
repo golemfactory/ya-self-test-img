@@ -4,7 +4,7 @@ on: push
 
 env:
   rust_stable: 1.70.0
-  gvmkit-build_tag: v0.3.2
+  gvmkit-build_tag: v0.3.13
   gvmkit-build_dir: gvmkit-build
   gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
   dist-dir: dist
