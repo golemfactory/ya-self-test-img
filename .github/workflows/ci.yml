@@ -76,13 +76,13 @@ jobs:
       - name: Build GVMkit image
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir ${{ env.dist-dir }}
+          mkdir -p ${{ env.dist-dir }}
           ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
 
       - name: Build GVMkit image for GPU
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir ${{ env.dist-dir }}
+          mkdir -p ${{ env.dist-dir }}
           ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}-gpu:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
 
       - name: Release
