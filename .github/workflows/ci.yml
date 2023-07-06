@@ -4,11 +4,12 @@ on: push
 
 env:
   rust_stable: 1.70.0
-  gvmkit-build_tag: v0.3.2
+  gvmkit-build_tag: v0.3.13
   gvmkit-build_dir: gvmkit-build
   gvmkit-build_archive: gvmkit-build-x86_64-unknown-linux-gnu.tar.gz
   dist-dir: dist
   dist-img: self-test.gvmi
+  dist-img-gpu: self-test-gpu.gvmi
   self-test-img_tag: self-test
 jobs:
   build:
@@ -76,27 +77,21 @@ jobs:
       - name: Build GVMkit image
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir ${{ env.dist-dir }}
+          mkdir -p ${{ env.dist-dir }}
           ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
 
       - name: Build GVMkit image for GPU
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          mkdir ${{ env.dist-dir }}
-          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}-gpu:latest -o ${{ env.dist-dir }}/${{ env.dist-img }}
+          mkdir -p ${{ env.dist-dir }}
+          ${{ env.gvmkit-build_dir }}/gvmkit-build ${{ env.self-test-img_tag }}-gpu:latest -o ${{ env.dist-dir }}/${{ env.dist-img-gpu }}
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          files: ${{ env.dist-dir }}/${{ env.dist-img }}
-          prerelease: ${{ !startsWith(github.ref, '/refs/tags/v[0-9]+') }}
-
-      - name: Release GPU
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          files: ${{ env.dist-dir }}/${{ env.dist-img }}-gpu
+          files: |
+            ${{ env.dist-dir }}/${{ env.dist-img }}
+            ${{ env.dist-dir }}/${{ env.dist-img-gpu }}
           prerelease: ${{ !startsWith(github.ref, '/refs/tags/v[0-9]+') }}
