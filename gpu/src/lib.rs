@@ -167,37 +167,6 @@ fn nvidia_settings() -> anyhow::Result<NvSettingsOut> {
     })
 }
 
-struct DebugOut {
-    settings_out: String,
-    smi_out: String,
-    smi_xml: String,
-}
-
-fn debug_output() -> anyhow::Result<DebugOut> {
-    let settings_bytes = Command::new("nvidia-settings")
-        .arg("--query")
-        .arg("all")
-        .output()?
-        .stdout;
-    let settings_text = std::str::from_utf8(&settings_bytes)?;
-
-    let smi_text_bytes = Command::new("nvidia-smi").arg("-q").output()?.stdout;
-    let smi_text_text = std::str::from_utf8(&smi_text_bytes)?;
-
-    let smi_xml_bytes = Command::new("nvidia-smi")
-        .arg("-x")
-        .arg("-q")
-        .output()?
-        .stdout;
-    let smi_xml_text = std::str::from_utf8(&smi_xml_bytes)?;
-
-    Ok(DebugOut {
-        settings_out: settings_text.into(),
-        smi_out: smi_text_text.into(),
-        smi_xml: smi_xml_text.into(),
-    })
-}
-
 fn gpu_status() -> anyhow::Result<Value> {
     let smi_out = nvidia_smi()?;
     let settings_out = nvidia_settings()?;
@@ -223,23 +192,7 @@ fn gpu_status() -> anyhow::Result<Value> {
 }
 
 pub fn system_info() -> anyhow::Result<Value> {
-    let gpu = gpu_status();
-
-    Ok(if gpu.is_ok() {
-        serde_json::json!({
-            "gpu": gpu_status()?,
-        })
-    } else {
-        match debug_output() {
-            Ok(dbg) => serde_json::json!({
-                "settings_out": dbg.settings_out,
-                "smi_text": dbg.smi_out,
-                "smi_xml": dbg.smi_xml,
-            }),
-            Err(e) => serde_json::json!({
-                "err_debug": e.to_string(),
-                "err_main": gpu.unwrap_err().to_string(),
-            }),
-        }
-    })
+    Ok(serde_json::json!({
+        "gpu": gpu_status()?,
+    }))
 }
