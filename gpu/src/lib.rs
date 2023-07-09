@@ -152,10 +152,6 @@ fn nvidia_settings() -> anyhow::Result<NvSettingsOut> {
         }
     }
 
-    if max_rate == 0 {
-        anyhow::bail!("memTransferRatemax attribute not found");
-    }
-
     if bus_width == 0 {
         anyhow::bail!("GPUMemoryInterface attribute not found");
     }
