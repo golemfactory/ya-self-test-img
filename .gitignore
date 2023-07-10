@@ -1,8 +1,13 @@
-self-test
-self-test.gvmi
+*/self-test
+*/self-test.gvmi
 
 
 # Added by cargo
 
 /target
+*/target
+*/self-test.gvmi.descr.bin
+self-test-gpu.gvmi
+self-test-gpu.gvmi.descr.bin
+self-test.gvmi
 self-test.gvmi.descr.bin

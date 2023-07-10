@@ -1,16 +1,2 @@
-[package]
-name = "ya-self-test"
-version = "0.1.0"
-edition = "2021"
-
-[lib]
-path = "src/lib.rs"
-
-[[bin]]
-name = "ya-self-test"
-path = "src/main.rs"
-
-[dependencies]
-anyhow = "1.0"
-sysinfo = "0.29"
-serde_json = "1.0"
+[workspace]
+members = ["dummy", "gpu"]
