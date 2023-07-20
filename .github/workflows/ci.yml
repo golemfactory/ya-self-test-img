@@ -101,4 +101,4 @@ jobs:
           files: |
             ${{ env.dist-dir }}/${{ env.dist-img }}
             ${{ env.dist-dir }}/${{ env.dist-img-gpu }}
-          prerelease: ${{ startsWith(github.ref, '/refs/tags/v') != true }}
+          prerelease: startsWith(github.ref, '/refs/tags/pre-rel-')
