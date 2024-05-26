@@ -1,4 +1,0 @@
-#!/bin/bash
-Xorg vt10 :0 &
-export DISPLAY=:0
-/ya-self-test-exe $1

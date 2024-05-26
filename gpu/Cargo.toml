@@ -2,16 +2,9 @@
 name = "ya-self-test-gpu"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
-[lib]
-path = "src/lib.rs"
-
-[[bin]]
-name = "ya-self-test-gpu"
-path = "src/main.rs"
 
 [dependencies]
-anyhow = "1.0"
-parse-size = "1.0.0"
-roxmltree = "0.18.0"
+golem-gpu-info = { git = "https://github.com/golemfactory/golem-gpu-info.git", branch = "feature/multi-gpu"}
 serde_json = "1.0"
