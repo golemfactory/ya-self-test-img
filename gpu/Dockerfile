@@ -13,4 +13,3 @@ WORKDIR /
 COPY --from=builder /usr/local/cargo/bin/ya-self-test-gpu /ya-self-test
 
 ENTRYPOINT [ "/ya-self-test" ]
-

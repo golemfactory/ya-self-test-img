@@ -41,7 +41,7 @@ jobs:
         with:
           command: clippy
           args: --all-targets --all-features --workspace -- -D warnings
-      
+
       - name: Unit tests
         uses: actions-rs/cargo@v1
         with:
@@ -61,14 +61,14 @@ jobs:
           context: dummy
           push: false
           tags: ${{ env.self-test-img_tag }}
-      
+
       - name: Build Docker image for GPU
         uses: docker/build-push-action@v4
         with:
           context: gpu
           push: false
           tags: ${{ env.self-test-img_tag }}-gpu
-        
+
       - name: Download gvmkit-build
         if: startsWith(github.ref, 'refs/tags/')
         uses: robinraju/release-downloader@v1.8
